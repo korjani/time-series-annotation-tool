@@ -1,0 +1,128 @@
+<div>
+  <h3>Mangers</h3>
+  <div class="operate">
+    <button
+      nz-button
+      [nzType]="'primary'"
+      (click)="addManagerModalShow = true">
+      <i nz-icon type="plus"></i>
+      <span>Add New</span>
+    </button>
+    <span *ngIf="selectedManagers.length">
+      <button
+        nz-button
+        [nzType]="'danger'"
+        (click)="showDeleteModal(selectedManagers.length, 'managers')">
+        <i nz-icon type="delete"></i>
+        <span>Delete {{ selectedManagers.length }} item(s)</span>
+      </button>
+    </span>
+  </div>
+  <app-table
+    [getTableRowData]="managersList"
+    [tableHeaderData]="managerFields"
+    [(itemSelected)]="selectedManagers">
+    <ng-template let-data>
+      <td>
+          <a [routerLink]="data?.user?.id">
+            {{ data?.user?.username }}
+          </a>
+      </td>
+    </ng-template>
+    <ng-template let-data>
+      <td>
+        {{ data?.user?.first_name }} {{ data?.user?.last_name }}
+      </td>
+    </ng-template>
+    <ng-template let-data>
+      <td>
+        {{ data?.user?.email }}
+      </td>
+    </ng-template>
+    <ng-template let-data>
+      <td>
+        {{ data?.invite_status }}
+      </td>
+    </ng-template>
+    <ng-template let-data>
+      <td>
+        {{ data?.user?.date_joined | date: 'yyyy/MM/dd' }}
+      </td>
+    </ng-template>
+    <ng-template let-data>
+      <td>
+        {{ data?.price_per_annotation }}
+      </td>
+    </ng-template>
+  </app-table>
+  <h3>Annotators</h3>
+  <div class="operate">
+    <button
+      nz-button
+      [nzType]="'primary'"
+      (click)="addAnnotatorModalShow = true">
+      <i nz-icon type="plus"></i>
+      <span>Add New</span>
+    </button>
+    <span *ngIf="selectedAnnotators.length">
+      <button
+        nz-button
+        [nzType]="'danger'"
+        (click)="showDeleteModal(selectedAnnotators.length, 'annotators')">
+        <i nz-icon type="delete"></i>
+        <span>Delete {{ selectedAnnotators.length }} item(s)</span>
+      </button>
+    </span>
+  </div>
+  <app-table
+    [getTableRowData]="annotatorsList"
+    [tableHeaderData]="annotatorFields"
+    [(itemSelected)]="selectedAnnotators">
+    <ng-template let-data>
+      <td>
+          <a [routerLink]="data?.user?.id">
+            {{ data?.user?.username }}
+          </a>
+      </td>
+    </ng-template>
+    <ng-template let-data>
+      <td>
+        {{ data?.user?.first_name }} {{ data?.user?.last_name }}
+      </td>
+    </ng-template>
+    <ng-template let-data>
+      <td>
+        {{ data?.user?.email }}
+      </td>
+    </ng-template>
+    <ng-template let-data>
+      <td>
+        {{ data?.invite_status }}
+      </td>
+    </ng-template>
+    <ng-template let-data>
+      <td>
+        {{ data?.user?.date_joined | date: 'yyyy/MM/dd' }}
+      </td>
+    </ng-template>
+  </app-table>
+</div>
+<app-add-manager
+  [groupOptions]="groupList"
+  [formError]="addManagerFormError"
+  [(isModalVisible)]="addManagerModalShow"
+  (submitedValue)="addManager($event)">
+</app-add-manager>
+<app-add-annotator
+  [projectOptions]="projectsList"
+  [formError]="addAnnotatorFormError"
+  [(isModalVisible)]="addAnnotatorModalShow"
+  (submitedValue)="addAnnotator($event)">
+</app-add-annotator>
+<nz-modal
+  [(nzVisible)]="deleteModalShow"
+  nzTitle="Delete {{ deletedItemType }}"
+  (nzOnCancel)="closeDeleteModal()"
+  (nzOnOk)="deleteSelectedItem()">
+  <p>Are you sure for delete {{ deletedCount }} {{ deletedItemType }} from database?</p>
+</nz-modal>

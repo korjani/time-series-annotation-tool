@@ -1,0 +1,19 @@
+.user-data {
+    display: grid;
+    gap: 10px 5px;
+    max-width: 500px;
+    margin-bottom: 20px;
+    grid-template-columns: 1fr 1fr;
+    // .key {
+    //     text-align: right;
+    // }
+    .value {
+        color: #000000;
+    }
+}
+.change-password {
+    max-width: 500px;
+    .submit-btn {
+        margin-right: 10px;
+    }
+}

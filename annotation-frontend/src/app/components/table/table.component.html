@@ -1,0 +1,67 @@
+<nz-table
+  #filterTable
+  [nzData]="listOfDisplayData"
+  [nzPageSize]="nzPageSize"
+  [nzPageSizeOptions]="nzPageSizeOptions"
+  nzShowSizeChanger>
+  <thead (nzSortChange)="sort($event)" nzSingleSort>
+    <tr>
+      <th nzShowExpand *ngIf="expandDataKey"></th>
+      <th
+        nzShowCheckbox
+        [(nzChecked)]="isAllDisplayDataChecked"
+        [nzIndeterminate]="isIndeterminate"
+        (nzCheckedChange)="checkAll($event)"
+      ></th>
+      <th nzShowSort
+        [nzSortKey]="head.key"
+        *ngFor="let head of tableHeaderData | keyvalue: returnZero">
+        {{ head.value }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let data of filterTable.data; let i=index">
+      <tr>
+        <td nzShowExpand *ngIf="expandDataKey" [(nzExpand)]="mapOfExpandId[data?.id]"></td>
+        <td
+          nzShowCheckbox
+          [(nzChecked)]="mapOfCheckedId[data?.id]"
+          (nzCheckedChange)="refreshStatus()"
+        ></td>
+        <ng-container *ngIf="!cellTemplates?.length">
+          <ng-container *ngFor="let head of tableHeaderData | keyvalue: returnZero">
+            <td *ngIf="linkFieldKeys.includes(head.key)">
+              <a [routerLink]="data?.id">
+                {{ data[head.key] }}
+              </a>
+            </td>
+            <td *ngIf="timeFieldKeys.includes(head.key)">
+              {{ data[head.key] | date: 'yyyy/MM/dd' }}
+            </td>
+            <td *ngIf="!timeFieldKeys.includes(head.key) && !linkFieldKeys.includes(head.key)">
+              {{ data[head.key] }}
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngFor="let temp of cellTemplates">
+          <ng-template [ngTemplateOutlet]="temp" [ngTemplateOutletContext]="{$implicit: data, index: i}" >
+          </ng-template>
+        </ng-container>
+      </tr>
+      <tr [nzExpand]="mapOfExpandId[data?.id]" *ngFor="let nestedData of data[expandDataKey] || []; let j=index">
+        <td></td>
+        <td></td>
+        <!-- <td
+          nzShowCheckbox
+          [(nzChecked)]="mapOfCheckedNestedId[nestedData?.id]"
+          (nzCheckedChange)="refreshStatus()"
+        ></td> -->
+        <ng-container *ngFor="let temp of cellTemplates">
+          <ng-template [ngTemplateOutlet]="temp" [ngTemplateOutletContext]="{$implicit: nestedData, index2: j}" >
+          </ng-template>
+        </ng-container>
+      </tr>
+    </ng-container>
+  </tbody>
+</nz-table>

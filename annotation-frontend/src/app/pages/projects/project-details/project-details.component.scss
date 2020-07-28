@@ -1,0 +1,26 @@
+.progress-section {
+    text-align: right;
+}
+.all-tags {
+    padding-bottom: 50px;
+    input {
+        width: 78px;
+    }
+    nz-tag {
+        margin-bottom: 10px;
+    }
+   .editable-tag {
+        background: rgb(255, 255, 255);
+        border-style: dashed;
+    }
+}
+.d-none {
+    display: none;
+}
+.max-annotation {
+    display: block;
+    margin-top: 5px;
+    nz-input-number {
+        max-width: 100px;
+    }
+}

@@ -1,0 +1,230 @@
+<div>
+  <div class="ant-row">
+    <div class="ant-col-md-18">
+      <h3>Project Tags</h3>
+      <div class="all-tags">
+        <nz-tag
+          *ngFor="let tag of tags"
+          [nzMode]="'closeable'"
+          (nzAfterClose)="handleClose(tag)"
+        >
+          {{ sliceTagName(tag?.name) }}
+        </nz-tag>
+        <nz-tag
+          *ngIf="!inputVisible"
+          nzColor="#1890ff"
+          class="editable-tag"
+          nzNoAnimation
+          (click)="showInput()">
+          <i nz-icon type="plus"></i> Add New
+        </nz-tag>
+        <input
+          #inputElement
+          nz-input
+          type="text"
+          nzSize="small"
+          *ngIf="inputVisible"
+          [(ngModel)]="inputValue"
+          (blur)="handleInputConfirm()"
+          (keydown.enter)="handleInputConfirm()"
+        />
+      </div>
+    </div>
+    <div class="ant-col-md-6 progress-section">
+      <nz-progress
+        nzType="circle"
+        [nzWidth]="80"
+        [nzPercent]="project_details?.progress_percent || 0">
+      </nz-progress>
+      <label class="max-annotation">
+        max annotation:
+        <nz-input-number
+            [nzSize]="'small'"
+            [nzMin]="1"
+            [nzStep]="1"
+            [(ngModel)]="maxAnnotations"
+            (keydown.enter)="editMaxAnnotation()">
+        </nz-input-number>
+      </label>
+    </div>
+  </div>
+  <!-- <div>
+    <h3>Project Mangers</h3>
+    <div class="operate">
+      <button
+        nz-button
+        [nzType]="'primary'"
+        (click)="showAddUserModal('manager')">
+        <i nz-icon type="plus"></i>
+        <span>Add New</span>
+      </button>
+      <span *ngIf="selectedManagers.length">
+        <button
+          nz-button
+          [nzType]="'danger'"
+          (click)="showDeleteModal(selectedManagers.length, 'managers')">
+          <i nz-icon type="delete"></i>
+          <span>Delete {{ selectedManagers.length }} item(s)</span>
+        </button>
+      </span>
+    </div>
+    <app-table
+      [getTableRowData]="managersList"
+      [tableHeaderData]="managerFields"
+      [(itemSelected)]="selectedManagers">
+      <ng-template let-data>
+        <td>
+            <a [routerLink]="data?.id">
+              {{ data?.user?.username }}
+            </a>
+        </td>
+      </ng-template>
+      <ng-template let-data>
+        <td>
+          {{ data?.user?.first_name }} {{ data?.user?.last_name }}
+        </td>
+      </ng-template>
+      <ng-template let-data>
+        <td>
+          {{ data?.user?.email }}
+        </td>
+      </ng-template>
+      <ng-template let-data>
+        <td>
+          {{ data?.invite_status }}
+        </td>
+      </ng-template>
+      <ng-template let-data>
+        <td>
+          {{ data?.user?.date_joined | date: 'yyyy/MM/dd' }}
+        </td>
+      </ng-template>
+      <ng-template let-data>
+        <td>
+          {{ data?.price_per_annotation }}
+        </td>
+      </ng-template>
+    </app-table>
+  </div> -->
+  <div>
+    <h3>Project Annotators</h3>
+    <div class="operate">
+      <button
+        nz-button
+        [nzType]="'primary'"
+        (click)="showAddUserModal('annotator')">
+        <i nz-icon type="plus"></i>
+        <span>Add New</span>
+      </button>
+      <span *ngIf="selectedAnnotators.length">
+        <button
+          nz-button
+          [nzType]="'danger'"
+          (click)="showDeleteModal(selectedAnnotators.length, 'annotators')">
+          <i nz-icon type="delete"></i>
+          <span>Delete {{ selectedAnnotators.length }} item(s)</span>
+        </button>
+      </span>
+    </div>
+    <app-table
+      [getTableRowData]="annotatorsList"
+      [tableHeaderData]="annotatorFields"
+      [(itemSelected)]="selectedAnnotators">
+      <ng-template let-data>
+        <td>
+            <a [routerLink]="data?.id">
+              {{ data?.user?.username }}
+            </a>
+        </td>
+      </ng-template>
+      <ng-template let-data>
+        <td>
+          {{ data?.user?.first_name }} {{ data?.user?.last_name }}
+        </td>
+      </ng-template>
+      <ng-template let-data>
+        <td>
+          {{ data?.user?.email }}
+        </td>
+      </ng-template>
+      <ng-template let-data>
+        <td>
+          {{ data?.invite_status }}
+        </td>
+      </ng-template>
+      <ng-template let-data>
+        <td>
+          {{ data?.user?.date_joined | date: 'yyyy/MM/dd' }}
+        </td>
+      </ng-template>
+    </app-table>
+  </div>
+  <div>
+    <h3>Project Files</h3>
+    <div class="operate">
+      <button
+        nz-button
+        [nzType]="'primary'"
+        (click)="addFileModalShow = true">
+        <i nz-icon type="plus"></i>
+        <span>Add New</span>
+      </button>
+      <span *ngIf="selectedFiles.length">
+        <button
+          nz-button
+          [nzType]="'danger'"
+          (click)="showDeleteModal(selectedFiles.length, 'files')">
+          <i nz-icon type="delete"></i>
+          <span>Delete {{ selectedFiles.length }} item(s)</span>
+        </button>
+      </span>
+    </div>
+    <app-table
+      [getTableRowData]="filesList"
+      [tableHeaderData]="fileFields"
+      [expandDataKey]="'annotated_data'"
+      [(itemSelected)]="selectedFiles">
+      <ng-template let-data let-nestedI="index2">
+        <td>
+          {{ data?.name }}
+          {{ nestedI !== undefined ? 'annotation_' + (nestedI + 1) + '.csv' : '' }}
+        </td>
+        <td>
+          {{ data?.owner }}
+        </td>
+        <td>
+          {{ data?.created_at | date: 'yyyy/MM/dd' }}
+        </td>
+        <td>
+            <button
+              nz-button
+              nzType="primary"
+              [nzLoading]="data?.downloadFileLoading"
+              [nzShape]="data?.annotated_data ? '' : 'circle'"
+              (click)="data?.annotated_data ?
+                downloadProjectFile(data) :
+                downloadAnnotatedData(data, nestedI)">
+              <i nz-icon type="download"></i>
+            </button>
+        </td>
+      </ng-template>
+    </app-table>
+  </div>
+</div>
+<app-add-user
+  [(isModalVisible)]="addUserModalShow"
+  [usernameList]="availableUser"
+  (submitedValue)="addUser($event)">
+</app-add-user>
+<app-upload-file
+  [(isModalVisible)]="addFileModalShow"
+  [uploadResult]="uploadResult"
+  (uploadedFileList)="uploadFileToProject($event)">
+</app-upload-file>
+<nz-modal
+  [(nzVisible)]="deleteModalShow"
+  nzTitle="Delete {{ deletedItemType }}"
+  (nzOnCancel)="closeDeleteModal()"
+  (nzOnOk)="deleteSelectedItem()">
+  <p>Are you sure for remove {{ deletedCount }} {{ deletedItemType }} from project?</p>
+</nz-modal>

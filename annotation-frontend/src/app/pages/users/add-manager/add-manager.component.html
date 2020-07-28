@@ -1,0 +1,187 @@
+<nz-modal
+  [(nzVisible)]="showModal"
+  nzTitle="Add new manger"
+  (nzOnCancel)="closeModal()"
+  [nzOkText]="null">
+  <form
+    nz-form
+    [formGroup]="validateForm"
+    (ngSubmit)="submitForm($event, validateForm.value)">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Username</nz-form-label>
+      <nz-form-control [nzSpan]="12"
+        nzHasFeedback
+        [nzValidateStatus]="formError?.user?.username ? 'error' : null">
+        <input nz-input
+          type="text"
+          formControlName="username"
+          placeholder="Username"/>
+        <nz-form-explain
+          *ngIf="validateForm.get('username')?.dirty && validateForm.get('username')?.hasError('required')">
+          Please input Username
+        </nz-form-explain>
+        <nz-form-explain
+          *ngIf="formError?.user?.username">
+          {{ formError?.user?.username }}
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Email</nz-form-label>
+      <nz-form-control [nzSpan]="12"
+        nzHasFeedback
+        [nzValidateStatus]="formError?.user?.email ? 'error' : null">
+        <input nz-input
+          type="text"
+          formControlName="email"
+          placeholder="email"/>
+        <nz-form-explain
+          *ngIf="validateForm.get('email')?.dirty && validateForm.get('email')?.hasError('required')">
+          Please input Email
+        </nz-form-explain>
+        <nz-form-explain
+          *ngIf="formError?.user?.email">
+          {{ formError?.user?.email }}
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Password</nz-form-label>
+      <nz-form-control [nzSpan]="12"
+        nzHasFeedback
+        [nzValidateStatus]="formError?.user?.password ? 'error' : null">
+        <input
+          nz-input
+          type="password"
+          formControlName="password"
+          placeholder="Password"/>
+        <nz-form-explain
+          *ngIf="validateForm.get('password')?.dirty && validateForm.get('password')?.errors">
+          Please input your Password!
+        </nz-form-explain>
+        <nz-form-explain
+          *ngIf="formError?.user?.password">
+          {{ formError?.user?.password }}
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Confirm Password</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <input
+          nz-input
+          type="password"
+          formControlName="confirmPassword"
+          placeholder="confirm Password"/>
+        <nz-form-explain
+          *ngIf="validateForm.get('confirmPassword')?.dirty && validateForm.get('confirmPassword')?.errors">
+          Passwords do not match!
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">First Name</nz-form-label>
+      <nz-form-control [nzSpan]="12"
+        nzHasFeedback
+        [nzValidateStatus]="formError?.user?.first_name ? 'error' : null">
+        <input nz-input
+          type="text"
+          formControlName="firstName"
+          placeholder="First Name"/>
+        <nz-form-explain
+          *ngIf="formError?.user?.first_name">
+          {{ formError?.user?.first_name }}
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">Last Name</nz-form-label>
+      <nz-form-control [nzSpan]="12"
+        nzHasFeedback
+        [nzValidateStatus]="formError?.user?.last_name ? 'error' : null">
+        <input nz-input
+          type="text"
+          formControlName="lastName"
+          placeholder="Last Name"/>
+        <nz-form-explain
+          *ngIf="formError?.user?.last_name">
+          {{ formError?.user?.last_name }}
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">Company Role</nz-form-label>
+      <nz-form-control [nzSpan]="12"
+        nzHasFeedback
+        [nzValidateStatus]="formError?.company_role ? 'error' : null">
+        <input nz-input
+          type="text"
+          formControlName="companyRole"
+          placeholder="Company Role"/>
+        <nz-form-explain
+          *ngIf="formError?.company_role">
+          {{ formError?.company_role }}
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Price</nz-form-label>
+      <nz-form-control [nzSpan]="12"
+        nzHasFeedback
+        [nzValidateStatus]="formError?.price_per_annotation ? 'error' : null">
+        <nz-input-number
+          formControlName="price"
+          [nzStep]="1"
+          [nzPlaceHolder]="'Price per annotator'"
+        ></nz-input-number>
+        <nz-form-explain
+          *ngIf="formError?.price_per_annotation">
+          {{ formError?.price_per_annotation }}
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">Group(s)</nz-form-label>
+      <nz-form-control [nzSpan]="12"
+        nzHasFeedback
+        [nzValidateStatus]="formError?.groups ? 'error' : null">
+        <nz-select formControlName="groups"
+          nzPlaceHolder="Group(s)"
+          nzMode="multiple"
+          nzAllowClear="true">
+          <nz-option
+            [nzLabel]="option?.name"
+            [nzValue]="option?.id"
+            *ngFor="let option of groupOptions"></nz-option>
+        </nz-select>
+        <nz-form-explain
+          *ngIf="formError?.groups">
+          {{ formError?.groups }}
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Status</nz-form-label>
+      <nz-form-control [nzSpan]="12"
+        nzHasFeedback
+        [nzValidateStatus]="formError?.invite_status ? 'error' : null">
+        <nz-select style="width: 120px;" formControlName="status" nzPlaceHolder="Status">
+          <nz-option nzValue="H" nzLabel="hold"></nz-option>
+          <nz-option nzValue="A" nzLabel="active"></nz-option>
+          <nz-option nzValue="R" nzLabel="removed"></nz-option>
+          <nz-option nzValue="C" nzLabel="canceled"></nz-option>
+        </nz-select>
+        <nz-form-explain
+          *ngIf="formError?.invite_status">
+          {{ formError?.invite_status }}
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzOffset]="7" [nzSpan]="12">
+        <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
+        <button nz-button (click)="resetForm($event)">Reset</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

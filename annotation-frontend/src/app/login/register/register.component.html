@@ -1,0 +1,105 @@
+<div class="register-content">
+  <form
+    nz-form
+    [formGroup]="validateForm"
+    class="register-form"
+    (ngSubmit)="submitForm($event, validateForm.value)">
+    <nz-form-item>
+      <nz-form-control nzHasFeedback
+        [nzValidateStatus]="formError['username'] ? 'error' : null">
+        <nz-input-group [nzPrefix]="prefixUser" class="required">
+          <input
+            nz-input
+            type="text"
+            formControlName="username"
+            placeholder="Username"/>
+        </nz-input-group>
+        <nz-form-explain
+          *ngIf="validateForm.get('username')?.dirty && validateForm.get('username')?.errors">
+          Please input your username!
+        </nz-form-explain>
+        <nz-form-explain
+          *ngIf="validateForm.get('username')?.dirty && formError['username']">
+          {{ formError['username'] }}
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nzHasFeedback
+        [nzValidateStatus]="formError['password'] ? 'error' : null">
+        <nz-input-group [nzPrefix]="prefixLock" class="required">
+          <input
+            nz-input
+            type="password"
+            formControlName="password"
+            placeholder="Password"/>
+        </nz-input-group>
+        <nz-form-explain
+          *ngIf="validateForm.get('password')?.dirty && validateForm.get('password')?.errors">
+          Please input your Password!
+        </nz-form-explain>
+        <nz-form-explain
+          *ngIf="validateForm.get('password')?.dirty && formError['password']">
+          {{ formError['password'] }}
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nzHasFeedback
+        [class.has-error]="validateForm.hasError('notSame')">
+        <nz-input-group [nzPrefix]="prefixLock" class="required">
+          <input
+            nz-input
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="confirm Password"/>
+        </nz-input-group>
+        <nz-form-explain
+          *ngIf="validateForm.hasError('notSame')">
+          Passwords do not match!
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nzHasFeedback
+        [nzValidateStatus]="formError['first_name'] ? 'error' : null">
+        <nz-input-group [nzPrefix]="prefixAlignLeft">
+          <input
+            nz-input
+            type="text"
+            formControlName="firstName"
+            placeholder="First Name"/>
+        </nz-input-group>
+        <nz-form-explain
+          *ngIf="validateForm.get('firstName')?.dirty && formError['first_name']">
+          {{ formError['first_name'] }}
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nzHasFeedback
+        [nzValidateStatus]="formError['last_name'] ? 'error' : null">
+        <nz-input-group [nzPrefix]="prefixAlignLeft">
+          <input
+            nz-input
+            type="text"
+            formControlName="lastName"
+            placeholder="Last Name"/>
+        </nz-input-group>
+        <nz-form-explain
+          *ngIf="validateForm.get('lastName')?.dirty && formError['last_name']">
+          {{ formError['first_name'] }}
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button class="register-form-button" [nzType]="'primary'">Register</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
+  <ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>
+  <ng-template #prefixAlignLeft><i nz-icon type="align-left"></i></ng-template>
+</div>
+  

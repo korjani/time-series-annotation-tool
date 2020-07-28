@@ -1,0 +1,111 @@
+<button
+  nz-button
+  [nzType]="'primary'"
+  (click)="isModalVisible = true">
+  <i nz-icon type="plus"></i>
+  <span>Add New</span>
+</button>
+<nz-modal
+  [(nzVisible)]="isModalVisible"
+  nzTitle="Add new project"
+  [nzOkText]="null"
+  (nzOnCancel)="closeModal()">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm($event, validateForm.value)">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>P-name</nz-form-label>
+      <nz-form-control nzHasFeedback
+        [nzSpan]="12"
+        [nzValidateStatus]="formError['projectName'] ? 'error' : null">
+        <input nz-input
+          formControlName="projectName"
+          placeholder="Project Name" type="text" />
+        <nz-form-explain
+          *ngIf="validateForm.get('projectName')?.dirty && validateForm.get('projectName')?.hasError('required')">
+          Please input Project Name
+        </nz-form-explain>
+        <nz-form-explain
+          *ngIf="validateForm.get('projectName')?.dirty && formError['projectName']">
+          {{ formError['projectName'] }}
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Group</nz-form-label>
+      <nz-form-control nzHasFeedback
+        [nzSpan]="12"
+        [nzValidateStatus]="formError['group'] ? 'error' : null">
+        <nz-select formControlName="group" nzPlaceHolder="Group">
+          <nz-option
+            [nzLabel]="option?.name"
+            [nzValue]="option?.id"
+            *ngFor="let option of groupOptions"></nz-option>
+        </nz-select>
+        <nz-form-explain
+          *ngIf="validateForm.get('group')?.dirty && validateForm.get('group')?.hasError('required')">
+          Please select Project Group
+        </nz-form-explain>
+        <nz-form-explain
+          *ngIf="validateForm.get('group')?.dirty && formError['group']">
+          {{ formError['group'] }}
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Deadline</nz-form-label>
+      <nz-form-control nzHasFeedback
+        [nzSpan]="12"
+        [nzValidateStatus]="formError['deadline'] ? 'error' : null">
+        <nz-date-picker formControlName="deadline" placeholder="deadline"></nz-date-picker>
+        <nz-form-explain
+          *ngIf="validateForm.get('deadline')?.dirty && validateForm.get('deadline')?.hasError('required')">
+          Please set deadline!
+        </nz-form-explain>
+        <nz-form-explain
+          *ngIf="validateForm.get('deadline')?.dirty && formError['deadline']">
+          {{ formError['deadline'] }}
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">Instruction</nz-form-label>
+      <nz-form-control nzHasFeedback
+        [nzSpan]="12"
+        [nzValidateStatus]="formError['instruction'] ? 'error' : null">
+        <input nz-input
+          type="text"
+          formControlName="instruction"
+          placeholder="Instruction"/>
+        <nz-form-explain
+          *ngIf="validateForm.get('instruction')?.dirty && validateForm.get('instruction')?.hasError('maxlength')">
+          Maximum of 256 characters
+        </nz-form-explain>
+        <nz-form-explain
+          *ngIf="validateForm.get('instruction')?.dirty && formError['instruction']">
+          {{ formError['instruction'] }}
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">Description</nz-form-label>
+      <nz-form-control nzHasFeedback
+        [nzSpan]="12"
+        [nzValidateStatus]="formError['description'] ? 'error' : null">
+        <textarea nz-input
+          rows="2"
+          formControlName="description"
+          placeholder="write any thing">
+        </textarea>
+        <nz-form-explain
+          *ngIf="validateForm.get('description')?.dirty && formError['description']">
+          {{ formError['description'] }}
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzOffset]="7" [nzSpan]="12">
+        <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
+        <button nz-button (click)="resetForm($event)">Reset</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

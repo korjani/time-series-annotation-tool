@@ -1,0 +1,54 @@
+<nz-modal
+  [(nzVisible)]="showModal"
+  nzTitle="Add user to project"
+  nzMaskClosable="false"
+  [nzOkText]="null"
+  (nzOnCancel)="closeModal()">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm($event, validateForm.value)">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Username</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <nz-select formControlName="username" nzPlaceHolder="Username">
+          <nz-option
+            [nzLabel]="option?.name"
+            [nzValue]="option?.id"
+            *ngFor="let option of usernameList"></nz-option>
+        </nz-select>
+        <nz-form-explain
+          *ngIf="validateForm.get('username')?.dirty && validateForm.get('username')?.hasError('required')">
+          Please select a user
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>E-mail</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <input nz-input
+          formControlName="email"
+          placeholder="email"
+          type="email" />
+        <nz-form-explain *ngIf="validateForm.get('email')?.dirty && validateForm.get('email')?.errors">
+          <ng-container *ngIf="validateForm.get('email')?.hasError('email')">
+            The input is not valid E-mail!
+          </ng-container>
+          <ng-container *ngIf="validateForm.get('email')?.hasError('required')">
+            Please input your E-mail!
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzSpan]="8" [nzOffset]="4">
+        <label nz-checkbox formControlName="invitation" (ngModelChange)="invitationChange($event)"
+          >Invite via Email</label
+        >
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzOffset]="7" [nzSpan]="12">
+        <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
+        <button nz-button (click)="resetForm($event)">Reset</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

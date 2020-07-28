@@ -1,0 +1,87 @@
+<div class="operate">
+  <app-add-project
+    *ngIf="current_user?.type === 'Admin'"
+    [formResponse]="addProjectResponse"
+    [groupOptions]="availableGroup"
+    [formError]="addProjectError"
+    (submitedValue)="addProject($event)">
+  </app-add-project>
+  <span class="actions">
+    <nz-dropdown [nzDisabled]="selectedProjects.length === 0">
+      <button nz-button nz-dropdown>
+        <span>Actions</span>
+        <i nz-icon type="down"></i>
+      </button>
+      <ul nz-menu>
+        <li nz-menu-item>
+          <a (click)="showAddUserModal('annotator')">
+            Add Annotator
+          </a>
+        </li>
+        <app-add-user
+          [(isModalVisible)]="addUserModalShow"
+          [usernameList]="availableUser"
+          (submitedValue)="addUser($event)">
+        </app-add-user>
+        <li nz-menu-item>
+          <a (click)="addFileModalShow = true">
+            Upload File
+          </a>
+          <app-upload-file
+            [(isModalVisible)]="addFileModalShow"
+            [uploadResult]="uploadResult"
+            (uploadedFileList)="uploadFileToProject($event)">
+          </app-upload-file>
+        </li>
+        <ng-container *ngIf="current_user?.type === 'Admin'">
+          <li nz-menu-divider></li>
+          <li nz-menu-item>
+            <a (click)="isModalVisible = true">
+              Delete Project
+            </a>
+          </li>
+        </ng-container>
+      </ul>
+    </nz-dropdown>
+    <span *ngIf="selectedProjects.length">Selected {{ selectedProjects.length }} items</span>
+  </span>
+</div>
+<app-table
+  [getTableRowData]="projectsList"
+  [tableHeaderData]="tableHeaderData"
+  [(itemSelected)]="selectedProjects">
+  <ng-template let-data>
+    <td>
+        <a [routerLink]="data?.id">
+          {{ data?.name}}
+        </a>
+    </td>
+  </ng-template>
+  <ng-template let-data>
+    <td>
+        {{ data?.group_name}}
+    </td>
+  </ng-template>
+  <ng-template let-data>
+    <td>
+        {{ data?.description}}
+    </td>
+  </ng-template>
+  <ng-template let-data>
+    <td>
+        {{ data?.instruction}}
+    </td>
+  </ng-template>
+  <ng-template let-data>
+    <td>
+        {{ data?.deadline | date: 'yyyy/MM/dd' }}
+    </td>
+  </ng-template>
+</app-table>
+<nz-modal
+  [(nzVisible)]="isModalVisible"
+  nzTitle="Delete project confirm"
+  (nzOnCancel)="closeModal()"
+  (nzOnOk)="deleteProjects()">
+  <p>Are you sure for delete {{ selectedProjects.length }} item(s)?</p>
+</nz-modal>

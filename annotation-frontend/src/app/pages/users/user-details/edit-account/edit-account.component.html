@@ -1,0 +1,59 @@
+<nz-modal
+  [(nzVisible)]="showModal"
+  nzTitle="Edit acount data"
+  (nzOnCancel)="closeModal()"
+  [nzOkText]="null">
+  <form
+    nz-form
+    [formGroup]="validateForm"
+    (ngSubmit)="submitForm($event, validateForm.value)">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Username</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <input nz-input formControlName="username" placeholder="Username" type="text" />
+        <nz-form-explain
+          *ngIf="validateForm.get('username')?.dirty && validateForm.get('username')?.hasError('required')">
+          Please input Username
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Email</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <input nz-input formControlName="email" placeholder="email" type="text" />
+        <nz-form-explain
+          *ngIf="validateForm.get('email')?.dirty && validateForm.get('email')?.hasError('required')">
+          Please input Email
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">First Name</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <input nz-input formControlName="firstName" placeholder="First Name" type="text" />
+        <nz-form-explain
+          *ngIf="validateForm.get('firstName')?.dirty && validateForm.get('firstName')?.hasError('required')">
+          Please input First Name
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">Last Name</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <input nz-input formControlName="lastName" placeholder="Last Name" type="text" />
+      </nz-form-control>
+    </nz-form-item>
+    <!-- <nz-form-item>
+      <nz-form-label [nzSpan]="7">Company Role</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <input nz-input formControlName="companyRole" placeholder="Company Role" type="text" />
+      </nz-form-control>
+    </nz-form-item> -->
+    <nz-form-item>
+      <nz-form-control [nzOffset]="7" [nzSpan]="12">
+        <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
+        <button nz-button (click)="resetForm($event)">Reset</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

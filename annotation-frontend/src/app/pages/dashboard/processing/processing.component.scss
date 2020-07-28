@@ -1,0 +1,27 @@
+.processing-content {
+    display: flex;
+    // margin-left: -24px;
+    // .project-files-menu {
+    //     display: flex;
+    //     flex-direction: column;
+    //     .project-files {
+    //         flex: 1;
+    //     }
+    // }
+    .project-desc {
+        height: 300px;
+        font-size: 16px;
+        overflow: auto;
+    }
+}
+.next-prev-actions {
+    display: flex;
+    .completed-btn {
+        background-color: #F69833;
+        color: #fff;
+    }
+    .prev-btn {
+        margin-left: auto;
+        margin-right: 10px;
+    }
+}

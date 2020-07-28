@@ -1,0 +1,57 @@
+<div>
+  <div>
+    <h3>Groups</h3>
+    <div class="operate">
+      <button
+        nz-button
+        [nzType]="'primary'"
+        (click)="addGroupModalShow = true;">
+        <!-- (click)="showAddUserModal('group')"> -->
+        <i nz-icon type="plus"></i>
+        <span>Add New</span>
+      </button>
+      <span *ngIf="selectedGroups.length">
+        <button
+          nz-button
+          [nzType]="'danger'"
+          (click)="showDeleteModal(selectedGroups.length, 'groups')">
+          <i nz-icon type="delete"></i>
+          <span>Delete {{ selectedGroups.length }} item(s)</span>
+        </button>
+      </span>
+    </div>
+    <app-table
+      [getTableRowData]="groupsList"
+      [tableHeaderData]="groupFields"
+      [(itemSelected)]="selectedGroups">
+      <ng-template let-data>
+        <td>
+            <a [routerLink]="'groups/' + data?.id">
+              {{ data?.name }}
+            </a>
+        </td>
+      </ng-template>
+      <ng-template let-data>
+        <td>
+            {{ data?.projects?.length }}
+        </td>
+      </ng-template>
+      <ng-template let-data>
+        <td>
+            {{ data?.managers?.length }}
+        </td>
+      </ng-template>
+    </app-table>
+  </div>
+</div>
+<app-add-group
+  [(isModalVisible)]="addGroupModalShow"
+  (submitedValue)="addGroup($event)">
+</app-add-group>
+<nz-modal
+  [(nzVisible)]="deleteModalShow"
+  nzTitle="Delete {{ deletedItemType }}"
+  (nzOnCancel)="closeDeleteModal()"
+  (nzOnOk)="deleteSelectedItem()">
+  <p>Are you sure for remove {{ deletedCount }} {{ deletedItemType }} from project?</p>
+</nz-modal>

@@ -1,0 +1,31 @@
+<nz-modal
+  [(nzVisible)]="showModal"
+  nzTitle="Add Group"
+  nzMaskClosable="false"
+  [nzOkText]="null"
+  (nzOnCancel)="closeModal()">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm($event, validateForm.value)">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Group Name</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <span class="example-input">
+          <input
+            nz-input
+            placeholder="Group Name"
+            formControlName="groupName"
+          />
+        </span>
+        <nz-form-explain
+          *ngIf="validateForm.get('groupName')?.dirty && validateForm.get('groupName')?.hasError('required')">
+          Please input Group Name
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzOffset]="7" [nzSpan]="12">
+        <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
+        <button nz-button (click)="resetForm($event)">Reset</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

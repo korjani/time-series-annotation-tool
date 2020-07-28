@@ -1,0 +1,13 @@
+<div nz-row [nzGutter]="8">
+  <div
+    nz-col
+    [nzSpan]="8"
+    class="project-grid"
+    *ngFor="let proj of userProjects">
+    <a routerLink="{{ proj.id }}">
+      <nz-card nzTitle="{{ proj.name }}">
+        <p>{{ proj.description }}</p>
+      </nz-card>
+    </a>
+  </div>
+</div>

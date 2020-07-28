@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+.ant-layout-content {
+    min-height: unset;
+}
+.operate {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.operate span {
+    margin-left: 8px;
+}

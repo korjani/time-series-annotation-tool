@@ -1,0 +1,87 @@
+<div class="processing-content">
+  <!-- <div class="project-files-menu">
+    <button
+      nz-button
+      [nzType]="'primary'"
+      (click)="toggleCollapsed()"
+      style="margin-bottom: 10px;">
+      <i nz-icon [type]="isCollapsed ? 'more' : 'menu'"></i>
+    </button>
+    <ul
+      nz-menu
+      class="project-files"
+      nzTheme="light"
+      [nzMode]="'inline'"
+      [nzInlineCollapsed]="isCollapsed">
+      <li
+        nz-menu-item
+        nz-tooltip
+        nzPlacement="right"
+        [nzSelected]="currentChartDataIndex == i"
+        [nzTitle]="isCollapsed ? file : ''"
+        (click)="setChartData(i)"
+        *ngFor="let file of availableFiles; let i=index">
+        <span title>
+          <i nz-icon type="database"></i>
+          <span>{{ file }}</span>
+        </span>
+      </li>
+    </ul>
+  </div> -->
+  <div
+    class="project-desc"
+    *ngIf="currentChartDataIndex === null">
+    <p>
+      {{ project_details?.description }}
+    </p>
+  </div>
+  <app-chart
+    *ngIf="currentChartDataIndex !== null"
+    [getData]="chartData"
+    [getTagList]="project_details?.tags"
+    (annotatedData)="getAnnotatedData($event)">
+  </app-chart>
+</div>
+<div class="next-prev-actions">
+  <button
+    nz-button
+    [nzType]="'primary'"
+    *ngIf="currentChartDataIndex === null"
+    (click)="setChartData('next')">
+    Start Annotation
+    <i nz-icon type="right"></i>
+  </button>
+  <ng-container *ngIf="currentChartDataIndex !== null && filesIdList.length">
+    <button
+      nz-button
+      [disabled]="false"
+      class="completed-btn"
+      (click)="completeAnnotation()">
+      <i nz-icon type="check-circle-fill"></i>
+      Annotation Completed
+    </button>
+    <button
+      nz-button
+      class="prev-btn"
+      [nzType]="'primary'"
+      *ngIf="filesIdList.length > 1 || tggedDataChanged"
+      [disabled]="!currentChartDataIndex && !tggedDataChanged"
+      (click)="setChartData('prev')">
+      <i nz-icon type="left" *ngIf="filesIdList.length > 1"></i>
+      {{ tggedDataChanged ? 'Save' : '' }}
+      {{ tggedDataChanged && filesIdList.length > 1 ? ' & ' : '' }}
+      {{ filesIdList.length > 1 ? 'Previos' : '' }}
+    </button>
+    <button
+      nz-button
+      [nzType]="'primary'"
+      *ngIf="filesIdList.length > 1"
+      [disabled]="currentChartDataIndex === filesIdList.length - 1"
+      (click)="setChartData('next')">
+      {{ tggedDataChanged ? 'Save' : '' }}
+      {{ tggedDataChanged && filesIdList.length > 1 ? ' & ' : '' }}
+      {{ filesIdList.length > 1 ? 'Next' : '' }}
+      <i nz-icon type="right" *ngIf="filesIdList.length > 1"></i>
+    </button>
+  </ng-container>
+</div>

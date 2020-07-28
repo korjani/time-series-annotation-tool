@@ -1,0 +1,104 @@
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar"
+            nzCollapsible
+            nzWidth="256px"
+            nzBreakpoint="md"
+            [(nzCollapsed)]="isCollapsed"
+            [nzTrigger]="null">
+    <div class="sidebar-logo">
+      <a class="brand-link" href="" target="_blank">
+        <img class="brand-logo" src="assets/img/LOGO1.svg" alt="solve-x-logo">
+        <h1 class="brand-title">SolveX</h1>
+      </a>
+    </div>
+    <ul nz-menu [nzMode]="'inline'" nzTheme="dark" [nzInlineCollapsed]="isCollapsed">
+      <li nz-menu-item
+        nz-tooltip
+        nzPlacement="right"
+        [nzTitle]="isCollapsed ? 'Dashboard' : ''">
+        <a title
+          routerLink="/dashboard">
+          <i nz-icon type="dashboard"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li nz-menu-item
+        nz-tooltip
+        nzPlacement="right"
+        [nzTitle]="isCollapsed ? 'Projects' : ''"
+        *ngIf="['Admin', 'Manager'].includes(currentUser?.type)">
+        <a title
+          routerLink="/projects">
+          <i nz-icon type="appstore"></i>
+          <span>Projects</span>
+        </a>
+      </li>
+      <li nz-menu-item
+        nz-tooltip
+        nzPlacement="right"
+        [nzTitle]="isCollapsed ? 'Users' : ''"
+        *ngIf="currentUser?.type === 'Admin'">
+        <a title
+          routerLink="/users">
+          <i nz-icon type="team"></i>
+          <span>Users</span>
+        </a>
+      </li>
+      <!-- <li nz-menu-item
+        nz-tooltip
+        nzPlacement="right"
+        [nzTitle]="isCollapsed ? 'Data' : ''">
+        <span title>
+          <i nz-icon type="database"></i>
+          <span>Data</span>
+        </span>
+      </li> -->
+      <li nz-menu-item
+        nz-tooltip
+        nzPlacement="right"
+        [nzTitle]="isCollapsed ? 'Groups' : ''"
+        *ngIf="currentUser?.type === 'Admin'">
+        <a title
+          routerLink="/groups">
+          <i nz-icon type="setting"></i>
+          <span>Groups</span>
+        </a>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+            <i class="trigger"
+                nz-icon
+                [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            ></i>
+        </span>
+        <nz-dropdown [nzPlacement]="'bottomRight'">
+          <div class="user-info-avatar" nz-dropdown >
+            <nz-avatar [nzSize]="45" nzIcon="user"></nz-avatar>
+            <span class="user-info">
+                <p class="user-name">{{ currentUser?.username }}</p>
+                <p class="user-role">{{ currentUser?.role }}</p>
+            </span>
+          </div>
+          <ul nz-menu nzSelectable>
+            <li nz-menu-item>
+              <a [routerLink]="'/users/' + currentUser?.pk">Profile</a>
+            </li>
+            <li nz-menu-divider></li>
+            <li nz-menu-item (click)="logoutUser()">
+              <a>Log out</a>
+            </li>
+          </ul>
+        </nz-dropdown>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

@@ -1,0 +1,91 @@
+<nz-tabset>
+  <nz-tab nzTitle="Account">
+    <div class="user-data">
+      <span class="key">Username</span>
+      <span class="value">{{ user_data?.username || '-' }}</span>
+      <span class="key">First Name</span>
+      <span class="value">{{ user_data?.first_name || '-' }}</span>
+      <span class="key">Last Name</span>
+      <span class="value">{{ user_data?.last_name || '-' }}</span>
+      <span class="key">Email</span>
+      <span class="value">{{ user_data?.email || '-' }}</span>
+      <span class="key">Date Joined</span>
+      <span class="value">{{ user_data?.date_joined || '-' }}</span>
+      <span class="key">Last Login</span>
+      <span class="value">{{ user_data?.last_login || '-' }}</span>
+    </div>
+    <button
+      class="edit-user-btn"
+      nz-button
+      nzType="primary"
+      (click)="editUserModalShow = true">
+      Edit Info
+    </button>
+    <app-edit-account
+      [userData]="user_data"
+      [(isModalVisible)]="editUserModalShow"
+      (submitedValue)="editUser($event)">
+    </app-edit-account>
+  </nz-tab>
+  <nz-tab nzTitle="Password">
+      <form class="change-password"
+      nz-form
+      [formGroup]="validateForm"
+      (ngSubmit)="submitForm($event, validateForm.value)">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzRequired>Old Password</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback>
+          <input
+            nz-input
+            type="password"
+            formControlName="oldPassword"
+            placeholder="Old Password"/>
+          <nz-form-explain
+            *ngIf="validateForm.get('oldPassword')?.dirty && validateForm.get('oldPassword')?.errors">
+            Please input your Old Password!
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzRequired>New Password</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback>
+          <input
+            nz-input
+            type="password"
+            formControlName="newPassword"
+            placeholder="New Password"/>
+          <nz-form-explain
+            *ngIf="validateForm.get('newPassword')?.dirty && validateForm.get('newPassword')?.errors">
+            Please input your New Password!
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzRequired>Confirm Password</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback [class.has-error]="validateForm.hasError('confirm')">
+          <input
+            nz-input
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="confirm Password"/>
+          <nz-form-explain
+            *ngIf="validateForm.hasError('confirm')">
+            Passwords do not match!
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzOffset]="7" [nzSpan]="12">
+          <button
+            class="submit-btn"
+            nz-button
+            nzType="primary"
+            [disabled]="!validateForm.valid">
+            Submit
+          </button>
+          <button nz-button (click)="resetForm($event)">Reset</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </nz-tab>
+</nz-tabset>

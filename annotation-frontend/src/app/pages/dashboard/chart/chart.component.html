@@ -1,0 +1,45 @@
+<div class="zoom-actions">
+  <button
+    nz-button
+    [nzType]="'primary'"
+    (click)="zoomChart()">
+    <i nz-icon type="zoom-in"></i>
+  </button>
+  <button
+    nz-button
+    [nzType]="'primary'"
+    (click)="zoomChart(-1)">
+    <i nz-icon type="zoom-out"></i>
+  </button>
+  <!-- <button
+    nz-button
+    [nzType]="'primary'"
+    (click)="addFileModalShow = true">
+    <i nz-icon type="upload"></i>
+    Upload File (for test only)
+    <app-upload-file
+      [(isModalVisible)]="addFileModalShow"
+      [uploadResult]="uploadResult"
+      (uploadedFileList)="uploadFileToProject($event)">
+    </app-upload-file>
+  </button> -->
+  <nz-select
+    class="tag-selection"
+    [ngModel]="currentTag"
+    (ngModelChange)="setTag($event)">
+    <nz-option
+      [nzValue]="tag?.id"
+      [nzLabel]="tag?.name"
+      *ngFor="let tag of tagList">
+    </nz-option>
+  </nz-select>
+</div>
+<div class="chart-container">
+  <div class="chart-parent zoom-{{ chartWidth / 1000 }}">
+    <canvas id="overlay"></canvas>
+    <!-- <canvas id="overlay" style="display: none"></canvas> -->
+    <canvas id="chartJSContainer">
+      {{ chart }}
+    </canvas>
+  </div>
+</div>
